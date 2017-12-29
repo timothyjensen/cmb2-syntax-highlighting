@@ -1,0 +1,12 @@
+.DS_Store
+Thumbs.db
+wp-cli.local.yml
+node_modules/
+*.sql
+*.tar.gz
+*.zip
+
+# Tests will be added later, so we'll ignore these for now.
+phpunit.xml.dist
+tests
+bin
