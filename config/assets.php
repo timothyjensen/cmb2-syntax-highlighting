@@ -30,8 +30,8 @@ return [
 	],
 	[
 		'type'      => 'script',
-		'handle'    => 'codemirror-css-script',
-		'src'       => 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/mode/css/css.js',
+		'handle'    => "codemirror-mode-script-{$this->mode}",
+		'src'       => "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/mode/{$this->mode}/{$this->mode}.js",
 		'dep'       => [ 'codemirror-js' ],
 		'ver'       => '5.33.0',
 		'in_footer' => true,

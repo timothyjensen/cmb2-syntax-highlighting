@@ -1,5 +1,5 @@
 # CMB2 Syntax Highlighting
-This plugin allows you to optionally add CodeMirror CSS syntax highlighting to `textarea_code` fields.
+This plugin allows you to optionally add CSS or JavaScript syntax highlighting to `textarea_code` fields.
 
 ![CMB2 Syntax Highlighting screenshot](screenshot.png "Example CMB2 meta box with CSS syntax highlighting.")
 
@@ -7,7 +7,7 @@ This plugin allows you to optionally add CodeMirror CSS syntax highlighting to `
 Install like any other WordPress plugin.
 
 ## Usage
-Add `'syntax_highlighting' => true` when registering your CMB2 field:
+Add `'syntax_highlighting' => 'css'` or `'syntax_highlighting' => 'js'` when registering your CMB2 field:
 
 ```php
 <?php
@@ -17,7 +17,7 @@ $cmb_demo->add_field( array(
 		'desc'                => esc_html__( 'Add custom CSS here. Do not include opening & closing style tags.', 'text-domain' ),
 		'id'                  => 'textarea_code_syntax_highlighting',
 		'type'                => 'textarea_code',
-		'syntax_highlighting' => true,
+		'syntax_highlighting' => 'css',
 	) );
 ```
 

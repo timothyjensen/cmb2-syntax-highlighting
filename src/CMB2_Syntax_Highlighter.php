@@ -33,6 +33,15 @@ class CMB2_Syntax_Highlighter {
 	protected $field_id = '';
 
 	/**
+	 * CodeMirror mode, either css or javascript.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
+	protected $mode = '';
+
+	/**
 	 * CodeMirror config.
 	 *
 	 * @var array
@@ -49,27 +58,7 @@ class CMB2_Syntax_Highlighter {
 	 * Hook into the WP lifecycle.
 	 */
 	public function init() {
-		add_action( 'admin_enqueue_scripts', [ $this, 'register_scripts' ] );
 		add_filter( 'cmb2_row_classes', [ $this, 'initialize_syntax_highlighting' ], 10, 2 );
-	}
-
-	/**
-	 * Register scripts and styles that will be later enqueued if a field has the 'syntax_highlighting' option set.
-	 */
-	public function register_scripts() {
-		$assets = $this->get_codemirror_scripts();
-
-		array_walk( $assets, function ( $asset ) {
-			// Pass the necessary arguments to wp_register_style and wp_register_script.
-			call_user_func_array( "wp_register_{$asset['type']}",
-				[
-					$asset['handle'],
-					$asset['src'],
-					$asset['dep'],
-					$asset['ver'],
-				]
-			);
-		} );
 	}
 
 	/**
@@ -81,21 +70,27 @@ class CMB2_Syntax_Highlighter {
 	 * @return string
 	 */
 	public function initialize_syntax_highlighting( $classes, $field_obj ) {
-		if (
-			empty( $field_obj->args['syntax_highlighting'] )
-			|| 'textarea_code' !== $field_obj->args['type']
-		) {
+		$this->field_obj = $field_obj;
+
+		if ( ! $this->should_syntax_highlight() ) {
 			return $classes;
 		}
 
-		$this->field_obj = $field_obj;
-		$this->field_id  = $field_obj->args['id'];
+		$this->field_id = $field_obj->args['id'];
 
-		$assets = $this->get_codemirror_scripts();
+		// Use CSS mode unless JavaScript mode has been specified.
+		$this->mode = $this->is_javascript_mode() ? 'javascript' : 'css';
 
+		$assets = $this->get_assets_config();
+
+		// Pass the necessary arguments to wp_enqueue_style and wp_enqueue_script.
 		array_walk( $assets, function ( $asset ) {
-			// Pass the necessary arguments to wp_enqueue_style and wp_enqueue_script.
-			call_user_func_array( "wp_enqueue_{$asset['type']}", [ $asset['handle'] ] );
+			call_user_func_array( "wp_enqueue_{$asset['type']}", [
+				$asset['handle'],
+				$asset['src'],
+				$asset['dep'],
+				$asset['ver'],
+			] );
 		} );
 
 		/**
@@ -111,19 +106,31 @@ class CMB2_Syntax_Highlighter {
 				'autoCloseBrackets' => true,
 				'lineNumbers'       => true,
 				'styleActiveLine'   => true,
+				'mode'              => $this->mode,
 				'theme'             => $this->get_codemirror_theme(),
 			],
 			$this->field_id,
 			$this->field_obj
 		);
 
-		$this->codemirror_config = json_encode( $codemirror_config );
+		$this->codemirror_config[ $this->field_id ] = wp_json_encode( $codemirror_config );
 
-		add_action( 'admin_print_footer_scripts', function () {
-			include CMB2_SYNTAX_HIGHLIGHTING_VIEWS_DIR . '/print-script.php';
-		}, 99 );
+		add_action( 'admin_print_footer_scripts', [ $this, 'print_codemirror_init_script' ], 20 );
 
 		return $classes;
+	}
+
+	/**
+	 * Print the CodeMirror initialization script.
+	 *
+	 * @since 1.0.0
+	 */
+	public function print_codemirror_init_script() {
+		$codemirror_configs = $this->codemirror_config;
+
+		array_walk( $codemirror_configs, function( $codemirror_config, $field_id ) {
+			include CMB2_SYNTAX_HIGHLIGHTING_VIEWS_DIR . '/codemirror-init-script.php';
+		} );
 	}
 
 	/**
@@ -131,8 +138,8 @@ class CMB2_Syntax_Highlighter {
 	 *
 	 * @return array
 	 */
-	protected function get_codemirror_scripts() {
-		$scripts_and_styles = include CMB2_SYNTAX_HIGHLIGHTING_CONFIG_DIR . '/scripts-styles.php';
+	protected function get_assets_config() {
+		$scripts_and_styles = include CMB2_SYNTAX_HIGHLIGHTING_CONFIG_DIR . '/assets.php';
 
 		/**
 		 * Filters the list of scripts and styles that will be enqueued.
@@ -149,7 +156,7 @@ class CMB2_Syntax_Highlighter {
 	 *
 	 * @return string
 	 */
-	public function get_codemirror_theme() {
+	protected function get_codemirror_theme() {
 		/**
 		 * Filters the CodeMirror theme.
 		 *
@@ -160,5 +167,27 @@ class CMB2_Syntax_Highlighter {
 		 * @param obj    $field_obj CMB2 field object.
 		 */
 		return apply_filters( 'cmb2_syntax_highlighting_theme', 'monokai', $this->field_id, $this->field_obj );
+	}
+
+	/**
+	 * Determine if syntax highlighting should be added to the field.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return bool
+	 */
+	protected function should_syntax_highlight() {
+		return 'textarea_code' === $this->field_obj->args['type'] && ! empty( $this->field_obj->args['syntax_highlighting'] );
+	}
+
+	/**
+	 * Determine if the syntax highlihgting mode should be set to JavaScript.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return bool
+	 */
+	protected function is_javascript_mode() {
+		return in_array( $this->field_obj->args['syntax_highlighting'], [ 'javascript', 'js' ], true );
 	}
 }

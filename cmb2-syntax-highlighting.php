@@ -7,7 +7,7 @@
  * Author URI:      https://www.timjensen.us
  * Text Domain:     cmb2-syntax-highlighting
  * Domain Path:     /languages
- * Version:         0.1.0
+ * Version:         0.2.0
  *
  * @package         TimJensen\CMB2SyntaxHighlighting
  */
