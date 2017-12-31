@@ -2,12 +2,12 @@
 /**
  * Plugin Name:     CMB2 Syntax Highlighting
  * Plugin URI:      https://github.com/timothyjensen/cmb2-syntax-highlighting
- * Description:     Allows CSS syntax highlighting to be applied to the 'textarea_code' field.
+ * Description:     Allows syntax highlighting to be applied to the 'textarea_code' field.
  * Author:          Tim Jensen <tim@timjensen.us>
  * Author URI:      https://www.timjensen.us
  * Text Domain:     cmb2-syntax-highlighting
  * Domain Path:     /languages
- * Version:         0.2.0
+ * Version:         1.0.0
  *
  * @package         TimJensen\CMB2SyntaxHighlighting
  */
