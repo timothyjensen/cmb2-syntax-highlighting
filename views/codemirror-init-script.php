@@ -9,5 +9,5 @@ namespace TimJensen\CMB2SyntaxHighlighting;
 ?>
 
 <script>
-    CodeMirror.fromTextArea(<?php echo esc_js( $field_id );?>, <?php echo wp_kses_post( $codemirror_config ); ?>);
+	CodeMirror.fromTextArea(<?php echo esc_js( $field_id ); ?>, <?php echo wp_kses_post( $codemirror_config ); ?>);
 </script>
