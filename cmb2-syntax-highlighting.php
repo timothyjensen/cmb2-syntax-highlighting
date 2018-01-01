@@ -18,9 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
 
-define( 'CMB2_SYNTAX_HIGHLIGHTING_CONFIG_DIR', __DIR__ . '/config' );
-define( 'CMB2_SYNTAX_HIGHLIGHTING_VIEWS_DIR', __DIR__ . '/views' );
-
 require_once __DIR__ . '/src/CMB2_Syntax_Highlighter.php';
 
 $cmb2_syntax_highlighting = new CMB2_Syntax_Highlighter();

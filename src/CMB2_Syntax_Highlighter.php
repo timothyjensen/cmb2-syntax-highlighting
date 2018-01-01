@@ -49,9 +49,25 @@ class CMB2_Syntax_Highlighter {
 	protected $codemirror_config = [];
 
 	/**
+	 * Path to config directory.
+	 *
+	 * @var string
+	 */
+	protected $config_dir;
+
+	/**
+	 * Path to views directory.
+	 *
+	 * @var string
+	 */
+	protected $views_dir;
+
+	/**
 	 * CMB2_Syntax_Highlighter constructor.
 	 */
 	public function __construct() {
+		$this->config_dir = dirname( __DIR__ ) . '/config';
+		$this->views_dir  = dirname( __DIR__ ) . '/views';
 	}
 
 	/**
@@ -128,8 +144,8 @@ class CMB2_Syntax_Highlighter {
 	public function print_codemirror_init_script() {
 		$codemirror_configs = $this->codemirror_config;
 
-		array_walk( $codemirror_configs, function( $codemirror_config, $field_id ) {
-			include CMB2_SYNTAX_HIGHLIGHTING_VIEWS_DIR . '/codemirror-init-script.php';
+		array_walk( $codemirror_configs, function ( $codemirror_config, $field_id ) {
+			include $this->views_dir . '/codemirror-init-script.php';
 		} );
 	}
 
@@ -139,7 +155,7 @@ class CMB2_Syntax_Highlighter {
 	 * @return array
 	 */
 	protected function get_assets_config() {
-		$scripts_and_styles = include CMB2_SYNTAX_HIGHLIGHTING_CONFIG_DIR . '/assets.php';
+		$scripts_and_styles = include $this->config_dir . '/assets.php';
 
 		/**
 		 * Filters the list of scripts and styles that will be enqueued.
