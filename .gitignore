@@ -7,6 +7,8 @@ node_modules/
 *.zip
 
 # Tests will be added later, so we'll ignore these for now.
-phpunit.xml.dist
-tests
+#phpunit.xml.dist
+#tests
 bin
+
+/vendor/
