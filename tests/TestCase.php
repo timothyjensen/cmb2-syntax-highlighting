@@ -1,8 +1,12 @@
 <?php
 /**
- * Class TestCase
+ * Test Case
  *
- * @package TimJensen\CMB2SyntaxHighlighting\Tests
+ * @package     TimJensen\CMB2SyntaxHighlighting\Tests
+ * @author      Tim Jensen <tim@timjensen.us>
+ * @license     GNU General Public License 2.0+
+ * @link        https://www.timjensen.us
+ * @since       1.0.0
  */
 
 namespace TimJensen\CMB2SyntaxHighlighting\Tests;
@@ -15,12 +19,29 @@ use TimJensen\CMB2SyntaxHighlighting\CMB2_Syntax_Highlighter;
 abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 	/**
+	 * Syntax highlighting mode.
+	 *
+	 * @var string
+	 */
+	public $mode = 'css';
+
+	/**
+	 * CodeMirror theme.
+	 *
+	 * @var string
+	 */
+	public $theme = 'monokai';
+
+	/**
 	 * Holds instances of CMB2_Syntax_Highlighter.
 	 *
 	 * @var array
 	 */
 	public $instances = [];
 
+	/**
+	 * Set up
+	 */
 	protected function setUp() {
 		parent::setUp();
 
@@ -46,6 +67,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		$this->init_highlighter_instance( 'code', $code_field_object_args );
 	}
 
+	/**
+	 * Initialize the test CMB2 Highligher instances.
+	 *
+	 * @param string $type Syntax Highlighting mode: css/js/javascript.
+	 * @param array $field_object_args Field object arguments.
+	 */
 	protected function init_highlighter_instance( $type, $field_object_args ) {
 		$field_object       = new \stdClass();
 		$field_object->args = $field_object_args;

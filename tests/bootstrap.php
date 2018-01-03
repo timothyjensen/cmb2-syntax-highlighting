@@ -2,7 +2,7 @@
 /**
  * PHPUnit bootstrap file
  *
- * @package Cmb2_Codemirror
+ * @package TimJensen\CMB2SyntaxHighlighting\Tests
  */
 
 if ( ! function_exists( 'add_action' ) ) {
