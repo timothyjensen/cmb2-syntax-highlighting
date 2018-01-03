@@ -1,29 +1,29 @@
 {
-    "name": "timothyjensen/cmb2-syntax-highlighting",
-    "description": "Allows syntax highlighting to be applied to the 'textarea_code' field.",
-    "version": "1.0.0",
-    "type": "project",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Timothy Jensen",
-            "email": "tim@timjensen.us"
-        }
-    ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "require": {},
-    "require-dev": {
-        "phpunit/phpunit": "^6"
-    },
-    "autoload": {
-        "psr-4": {
-            "TimJensen\\CMB2SyntaxHighlighting\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "TimJensen\\CMB2SyntaxHighlighting\\Tests\\": "tests/"
-        }
+  "name": "timothyjensen/cmb2-syntax-highlighting",
+  "description": "Allows syntax highlighting to be applied to the 'textarea_code' field.",
+  "version": "1.1.0",
+  "type": "wordpress-plugin",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Timothy Jensen",
+      "email": "tim@timjensen.us"
     }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {},
+  "require-dev": {
+    "phpunit/phpunit": "^6"
+  },
+  "autoload": {
+    "psr-4": {
+      "TimJensen\\CMB2SyntaxHighlighting\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "TimJensen\\CMB2SyntaxHighlighting\\Tests\\": "tests/"
+    }
+  }
 }
