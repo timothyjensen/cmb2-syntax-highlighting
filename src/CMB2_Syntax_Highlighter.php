@@ -97,6 +97,8 @@ class CMB2_Syntax_Highlighter {
 		// Use CSS mode unless JavaScript mode has been specified.
 		$this->mode = $this->is_javascript_mode() ? 'javascript' : 'css';
 
+		$this->theme = $this->get_codemirror_theme();
+
 		$assets = $this->get_assets_config();
 
 		// Pass the necessary arguments to wp_enqueue_style and wp_enqueue_script.
@@ -123,7 +125,7 @@ class CMB2_Syntax_Highlighter {
 				'lineNumbers'       => true,
 				'styleActiveLine'   => true,
 				'mode'              => $this->mode,
-				'theme'             => $this->get_codemirror_theme(),
+				'theme'             => $this->theme,
 			],
 			$this->field_id,
 			$this->field_obj
